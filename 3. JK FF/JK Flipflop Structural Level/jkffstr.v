@@ -1,17 +1,17 @@
-module jkffstr(q1,qbar1,q2,qbar2,clk,j,k);
-//Input output initiation
-input j,k,clk;
-output q1,qbar1,q2,qbar2;
-wire nand1_out, nand2_out, nand3_out, nand_out4,clk_not; 
-not(clk_not,clk);//Inverting clock 
-//Master JK Flipflop
-nand(nand1_out, j,clk,qbar2);
-nand(nand2_out, k,clk,q2);
-nand(q1,qbar1,nand1_out);
-nand(qbar1,q1,nand2_out);
-//Slave JK Flipflop
-nand(nand3_out,q1,clk_not);//slave
-nand(nand4_out,qbar1,clk_not);
-nand(q2,qbar2,nand3_out);
-nand(qbar2,q2,nand4_out);
+module jkff(J,K,Q,Qbar,clk);
+input J,K, clk;
+output Q, Qbar;
+wire w1, w2, w3, w4, w5, w6, clkbar;
+
+not nn1 (clkbar, clk);
+nand n1 (w1, J, clk, Qbar);
+nand n2 (w2, K, clk, Q);
+nand n3 (w3, w1, w4);
+nand n4 (w4, w2, w3);
+
+nand n5 (w5, w3, clkbar);
+nand n6 (w6, w4, clkbar);
+nand n7 (Q, w5, Qbar);
+nand n8 (Qbar, w6, Q);
+
 endmodule
